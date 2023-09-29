@@ -66,7 +66,6 @@
 
 - **[Facial_detection]**
 - **[Facial_recognition]**
-- **[Facial_aligment]**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -85,14 +84,11 @@ To get a local copy up and running, follow these steps.
 In order to run this project you need:
 
 python3 with pip:
-  - dlib==19.24.0
-  - face-recognition==1.3.0
+  - dlib==19.21.0
+  - face-recognition
   - numpy
-  - Pillow==9.4.0
-  - Flask==2.0.1
-  - opencv-python==4.5.3.56
-  - tensorflow==2.5.0
-  - scikit-learn==0.24.2
+  - Flask
+  - opencv-python
   - cryptography
   - pymysql
   - sqlalchemy
@@ -109,7 +105,7 @@ Example commands:
 
 ```sh
   cd my-folder
-  git clone git@github.com:allenkays/allenkays.github.io
+  git clone https://github.com/allenkays/Face_X.git
 ```
 
 ### Install
@@ -119,7 +115,7 @@ Install this project with:
 Example command:
 
 ```sh
-   cd my-project
+   cd <project_dir>
    python -m venv venv
    source venv/bin/activate
    pip install -r requirements.txt
@@ -225,7 +221,7 @@ I would like to thank @254-elvis for being a great collaborator. I'd also like t
 
 ## 📝 License <a name="license"></a>
 
-This softwae project is [MIT](./LICENSE) licensed.
+This software project is [MIT](./LICENSE) licensed.
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
