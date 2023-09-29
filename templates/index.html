@@ -1,0 +1,57 @@
+<!-- app/templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Face Recognition</title>
+</head>
+<body>
+    <h1>Face Recognition</h1>
+    
+    <!-- Form for uploading an image for face detection -->
+    <h2>Face Detection</h2>
+    <form method="POST" action="/detect" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".jpg, .jpeg, .png">
+        <input type="submit" value="Detect Faces">
+    </form>
+
+    <!-- Display uploaded image for face detection -->
+    {% if detected_image %}
+    <h3>Uploaded Image for Detection:</h3>
+    <img src="data:image/jpeg;base64,{{ detected_image }}" alt="Uploaded Image for Detection" width="400">
+    {% endif %}
+
+    <!-- Display detected faces coordinates -->
+    {% if detected_faces %}
+    <h3>Detected Faces:</h3>
+    <ul>
+        {% for (x, y, w, h) in detected_faces %}
+        <li>Face {{ loop.index }}. Coordinates: ({{ x }}, {{ y }}), Width: {{ w }}, Height: {{ h }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <!-- Form for uploading an image for face recognition -->
+    <h2>Face Recognition</h2>
+    <form method="POST" action="/recognize" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".jpg, .jpeg, .png">
+        <input type="submit" value="Recognize Faces">
+    </form>
+
+    <!-- Display uploaded image for face recognition -->
+    {% if recognized_image %}
+    <h3>Uploaded Image for Recognition:</h3>
+    <img src="data:image/jpeg;base64,{{ recognized_image }}" alt="Uploaded Image for Recognition" width="400">
+    {% endif %}
+
+    <!-- Display recognized results -->
+    {% if recognized_results %}
+    <h3>Recognized Results:</h3>
+    <ul>
+        {% for result in recognized_results %}
+        <li>{{ result }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>
