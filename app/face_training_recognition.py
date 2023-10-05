@@ -79,18 +79,22 @@ class FaceRecognizer:
         face_encodings = face_recognition.face_encodings(
             test_image, face_locations
         )
+        # Initialize a lists to store results & detected face locations
         recognized_results = []
-        detected_faces = []  # Initialize a list to store detected face locations
+        detected_faces = []
 
         # Compare face encodings in the test image with known face encodings
-        for face_encoding, face_location in zip(face_encodings, face_locations):
+        for face_encoding, face_location in zip(
+            face_encodings, face_locations
+        ):
             # Calculate the face distance (similarity) to known faces
             face_distances = face_recognition.face_distance(
                 self.known_face_encodings, face_encoding
             )
 
             if len(face_distances) == 0:
-                # No known faces to compare with; set a default value for min_distance
+                # No known faces to compare with;
+                # set a default value for min_distance
                 min_distance = 1.0
             else:
                 # Find the closest match (smallest distance)
@@ -111,95 +115,78 @@ class FaceRecognizer:
                 recognized_result = "Unknown"
 
             recognized_results.append(recognized_result)
-            detected_faces.append(face_location) 
+            detected_faces.append(face_location)
 
         return recognized_results, detected_faces
 
-
-'''
-    def display_recognized_faces(self, test_image_path):
+    def recognize_faces_in_video(self, video_path):
         """
-        # Method to display recognized face using matplotlib library
+        Facial recognition in video
 
         Args:
-            test_image_path (str): Path to test image
+            video_path (str): Path to the video file
 
         Returns:
-            Image with facial annotation
+            results (list): List of facial recognition results for each frame
         """
-        # Load the test image for display
-        test_image = face_recognition.load_image_file(test_image_path)
+        # Open the video file
+        video_capture = cv2.VideoCapture(video_path)
 
-        # Create a plot to display the image
-        plt.figure(figsize=(8, 6))
-        plt.imshow(test_image)
+        results = []
 
-        ax = plt.gca()
+        while True:
+            # Read a single frame from the video
+            ret, frame = video_capture.read()
 
-        # Detect faces in the test image
-        face_locations = face_recognition.face_locations(test_image)
-        detected_faces = [
-            (top, right, bottom, left)
-            for (top, right, bottom, left)
-            in face_locations
-        ]
+            if not ret:
+                break
 
-        for face_location in detected_faces:
-            top, right, bottom, left = face_location
+            # Convert the frame to RGB (required for face_recognition library)
+            rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-            # Create a rectangular background around the face
-            rect_border = patches.Rectangle(
-                (left, top),
-                right - left,
-                bottom - top,
-                linewidth=2,
-                edgecolor='g',
-                facecolor='none'
-            )
-            ax.add_patch(rect_border)
-
-            # Crop the detected face
-            face_image = test_image[top:bottom, left:right]
-
-            # Recognize the face
-            face_encoding = face_recognition.face_encodings(
-                face_image, num_jitters=1
+            # Find face locations and encodings in the current frame
+            face_locations = face_recognition.face_locations(rgb_frame)
+            face_encodings = face_recognition.face_encodings(
+                rgb_frame, face_locations
             )
 
-            if not face_encoding:
-                recognized_result = "Unknown"
-            else:
+            recognized_results = []
+
+            for face_encoding, face_location in zip(
+                face_encodings, face_locations
+            ):
                 face_distances = face_recognition.face_distance(
-                    self.known_face_encodings, face_encoding[0]
-                    )
-                min_distance = min(face_distances)
+                    self.known_face_encodings, face_encoding
+                )
+
+                if len(face_distances) == 0:
+                    min_distance = 1.0
+                else:
+                    min_distance = min(face_distances)
+
                 confidence_level = (1 - min_distance) * 100
 
                 if min_distance < self.threshold:
                     index = list(face_distances).index(min_distance)
                     name = self.known_face_names[index]
                     recognized_result = (
-                        f"Recognized:\
-                        {name} with {confidence_level: .2f}\
-                        % level of confidence"
+                        f"Recognized: {name}\
+                        \nLevel of Confidence: {confidence_level:.2f}%"
                     )
                 else:
                     recognized_result = "Unknown"
 
-            # Annotate text on the rectangular background
-            ax.annotate(
-                recognized_result,
-                xy=(left, bottom + 25),
-                color='w',
-                fontsize=8,
-                weight='bold'
-            )
+                recognized_results.append(recognized_result)
 
-        plt.axis('off')
-        plt.show()
+            results.append(recognized_results)
+
+        # Release the video capture object
+        video_capture.release()
+
+        return results
 
 
-
+'''
 if __name__ == '__main__':
     input_directory = 'images/training_dataset'
     recognizer = FaceRecognizer(input_directory)

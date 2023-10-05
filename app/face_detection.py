@@ -34,9 +34,44 @@ class FaceDetector:
         """
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         faces = self.face_cascade.detectMultiScale(
-            gray, scaleFactor=1.1, minNeighbors=4, minSize=(30, 30)
+            gray, scaleFactor=1.1, minNeighbors=7, minSize=(30, 30)
         )
         return faces
+
+    def detect_faces_in_video(self, video_path):
+        """
+        Detects faces in a video.
+
+        Args:
+            video_path (str): Path to the video file.
+
+        Returns:
+            List of lists: A list of faces detected in each frame.
+        """
+        # Open the video file
+        cap = cv2.VideoCapture(video_path)
+
+        if not cap.isOpened():
+            raise ValueError("Error: Could not open video file.")
+
+        detected_faces_in_video = []
+
+        while True:
+            ret, frame = cap.read()
+
+            if not ret:
+                break  # End of the video
+
+            # Detect faces in the current frame
+            faces = self.detect_faces(frame)
+
+            # Append the detected faces to the result list
+            detected_faces_in_video.append(faces)
+
+        # Release the video capture object
+        cap.release()
+
+        return detected_faces_in_video
 
 
 """
