@@ -11,7 +11,7 @@ from io import BytesIO
 
 class Plotter:
     """
-    plotter class containing a methods to display detected faces, recognized faces
+    plotter class methods to display detected faces/recognized faces
     """
     @staticmethod
     def plot_detected_faces(image, detected_faces):
@@ -32,33 +32,39 @@ class Plotter:
 
         for (x, y, w, h) in detected_faces:
             # Draw a rectangle around detected faces
-            ax.add_patch(patches.Rectangle((x, y), w, h, linewidth=2, edgecolor='g', facecolor='none'))
+            ax.add_patch(patches.Rectangle(
+                (x, y), w, h,
+                linewidth=2,
+                edgecolor='g',
+                facecolor='none'
+                )
+            )
 
         ax.axis('off')
 
         # Save the plot to a BytesIO object
         buf = BytesIO()
-        plt.savefig(buf, format='png', bbox_inches='tight')  # Specify 'bbox_inches' to avoid saving extra whitespace
+        # Specify 'bbox_inches' to avoid saving extra whitespace
+        plt.savefig(buf, format='png', bbox_inches='tight')
         buf.seek(0)
         return buf
 
-
     @staticmethod
-    def display_recognized_faces(test_image_path, recognized_results, detected_faces):
+    def display_recognized_faces(
+        test_image_path, recognized_results, detected_faces
+    ):
         """
         Method to display recognized faces
 
         Args:
             test_image_path (str): Path to the test image
-            recognized_results (list): List containing faces 
+            recognized_results (list): List containing faces
             detected_faces (tuple): Tuple of coordinates for bounding box
         """
         if not test_image_path:
             raise ValueError("test_image_path is not provided.")
-        
         if not recognized_results:
             raise ValueError("recognized_results is empty.")
-        
         if not detected_faces:
             raise ValueError("detected_faces is empty.")
 
