@@ -5,13 +5,12 @@ This is the plotter class that displays the image back to the user
 import cv2
 import face_recognition
 import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
-
 from io import BytesIO
+matplotlib.use('Agg')
 
 
 class Plotter:
@@ -47,7 +46,6 @@ class Plotter:
 
         # Create a BytesIO buffer to save the image
         buf = BytesIO()
-        
         # Use FigureCanvasAgg to render the figure to the BytesIO buffer
         canvas = FigureCanvas(fig)
         canvas.print_figure(buf, format='png')

@@ -8,12 +8,13 @@ from flask import (
     redirect, url_for, flash, Response
 )
 import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from app.face_training_recognition import FaceRecognizer
 from app.face_detection import FaceDetector
 from app.plotter import Plotter
 from io import BytesIO
+
+matplotlib.use('Agg')
 
 app = Flask(__name__)
 main_routes = Blueprint('main', __name__)
@@ -107,7 +108,7 @@ def detect_faces():
         if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
             # Perform face detection using face_recognition for images
             detector = FaceDetector()  # Create an instance of FaceDetector
-            detected_faces = detector.detect_faces(filename)  # Use detect_faces method
+            detected_faces = detector.detect_faces(filename)
 
             if len(detected_faces) == 0:
                 # Handles the case where no faces are detected
@@ -115,7 +116,7 @@ def detect_faces():
                 return "No faces detected"
 
             # Create a plot with detected faces
-            plot_buf = Plotter.plot_detected_faces(filename, detected_faces)  # Pass filename and faces
+            plot_buf = Plotter.plot_detected_faces(filename, detected_faces)
 
             # Convert the plot to bytes for display
             plot_bytes = plot_buf.getvalue()
