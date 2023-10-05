@@ -4,8 +4,13 @@ This is the plotter class that displays the image back to the user
 """
 import cv2
 import face_recognition
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+
 from io import BytesIO
 
 
@@ -14,39 +19,41 @@ class Plotter:
     plotter class methods to display detected faces/recognized faces
     """
     @staticmethod
-    def plot_detected_faces(image, detected_faces):
+    def plot_detected_faces(image_path, face_locations):
         """
-        Method to display detected faces
+        Plot detected faces on the image.
 
         Args:
-            image (str): Path to image
-            detected_faces (tuple): Tuple showing facial coordinates
+            image_path (str): The path to the image to plot on.
+            face_locations (list): List of tuples containing face locations.
 
         Returns:
-            buf (BytesIO object)
+            BytesIO: BytesIO object containing the plotted image.
         """
-        plt.figure(figsize=(10, 8))
-        plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+        # Load the image using face_recognition
+        image = face_recognition.load_image_file(image_path)
 
-        ax = plt.gca()
+        # Create a figure and axes for plotting
+        fig, ax = plt.subplots(figsize=(8, 6))
+        ax.imshow(image)
 
-        for (x, y, w, h) in detected_faces:
-            # Draw a rectangle around detected faces
-            ax.add_patch(patches.Rectangle(
-                (x, y), w, h,
-                linewidth=2,
-                edgecolor='g',
-                facecolor='none'
-                )
+        for (top, right, bottom, left) in face_locations:
+            # Create a rectangle patch for each detected face
+            rect = patches.Rectangle(
+                (left, top), right - left, bottom - top,
+                linewidth=2, edgecolor='g', facecolor='none'
             )
+            ax.add_patch(rect)
 
-        ax.axis('off')
-
-        # Save the plot to a BytesIO object
+        # Create a BytesIO buffer to save the image
         buf = BytesIO()
-        # Specify 'bbox_inches' to avoid saving extra whitespace
-        plt.savefig(buf, format='png', bbox_inches='tight')
+        
+        # Use FigureCanvasAgg to render the figure to the BytesIO buffer
+        canvas = FigureCanvas(fig)
+        canvas.print_figure(buf, format='png')
         buf.seek(0)
+        plt.close(fig)  # Close the figure to free up resources
+
         return buf
 
     @staticmethod
