@@ -1,0 +1,124 @@
+@media screen and (min-width: 768px) {
+  body {
+      width: 100%;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .mobile-menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-right: 50px;
+  }
+
+  .menu-items {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    list-style: none;
+    color: #fff;
+    text-align: center;
+    font-family: Inter, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+  }
+
+  .nav-link,
+  .email {
+    padding-left: 20px;
+    padding: 5%;
+  }
+
+  .nav-link a {
+    color: #fff;
+    text-decoration: none;
+  }
+  .main-title {
+    color: #f55800;
+    font-family: "Crete Round", sans-serif;
+    font-size: 72px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 113.194%;
+  }
+
+  .contact-links {
+    padding-top: 220px;
+    align-self: self-start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  } 
+  .about {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 0;
+  }
+
+  .about-me {
+    display: inline-flex;
+    padding: 130px 0;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 24px;
+    margin: 0;
+  }
+  .about-hr {
+    width: 45%;
+    margin: 50px;
+  }
+  .feedback {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin: 0;
+    padding: 130px 0 130px 0;
+    width: 100%;
+  }
+  .feedback-form {
+    width: 45%;
+  }
+  .divider,
+  .rectangle-border,
+  #fullname,
+  #email,
+  #message { 
+    width: 100%;
+    background: grey;
+  }
+
+  .feedback-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    width: 455px;
+    color: #fff;
+  }
+
+  .c-button {
+    align-self: flex-start;
+    border: #ff6b00;
+  }
+
+  .footer {
+    display: flex;
+    width: 100%;
+  }
+  .menu-divider {
+    display: none;
+  }
+
+  .hamburger-icon {
+    display: none;
+  } 
+}
