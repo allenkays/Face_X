@@ -2,6 +2,7 @@
 """
 This module trains and does facial recognition
 """
+import cv2
 import os
 import face_recognition
 import matplotlib.pyplot as plt
