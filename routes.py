@@ -2,6 +2,7 @@
 """
 routes.py
 """
+import cv2
 import os
 from flask import (
     Blueprint, Flask, render_template, request,
