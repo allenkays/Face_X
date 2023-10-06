@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Video Results</title>
+</head>
+<body>
+    <h1>Video Results</h1>
+    
+    <!-- Loop through the video_results data and display recognized faces for each frame -->
+    <div>
+        {% for frame_data in video_results %}
+            <h3>Frame {{ loop.index }}</h3>
+            <img src="data:image/jpeg;base64,{{ frame_data.image }}" alt="Frame {{ loop.index }}">
+            
+            <!-- Display recognized faces for the current frame -->
+            <ul>
+                {% for recognized_face in frame_data.recognized_faces %}
+                    <li>{{ recognized_face }}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </div>
+</body>
+</html>

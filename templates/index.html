@@ -1,0 +1,146 @@
+<!-- app/templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+        <title>Face Recognition</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='desktop.css') }}">
+        <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+    </head>
+    <body>
+        <!--Header section-->
+        <header class="header">
+            <div class="icon"><h2 class="logo">Face X</h2></div>
+            <nav class="mobile-menu">                
+                <ul class="menu-items">
+                    <li class="nav-link"><a href="#Home">Home</a><hr class="menu-divider"></li>
+                    <li class="nav-link"><a href="#about">About</a><hr class="menu-divider"></li>
+                    <li class="nav-link"><a href="#feedback">Contact</a><hr class="menu-divider"></li>
+                    <li class="nav-link"><a href="#email"><img src="static/assets/header/Icon - Mail.svg" alt="mail"></a></li>
+                </ul>
+                <div class="hamburger-icon">
+                    <span class="bar-1"></span>
+                    <span class="bar-1"></span>
+                    <span class="bar-1"></span>
+                </div>
+            </nav>           
+        </header>
+        <div class="main">
+            <h1 class="main-title">Face-X</h1>
+            <div class="search">
+                <input class="srch" type="search" name="" placeholder="Enter name or Face Id">
+                <a href="#"> <button class="btn">Search</button></a>
+            </div>
+            <div class="content">
+                <div class="stream-select">
+                    <h2>Faces on  <br> Live Streams</h2>
+                    <!-- Form for accessing video streaming with a POST request -->
+                    <form class="file-select" method="GET" action="/video">
+                        <input type="submit" value="Detect/Recognize">
+                    </form>
+                </div>
+                <div>
+                    <div>
+                        <!-- Form for uploading an image for face detection -->
+                        <h2>Face Detection</h2>
+                        <form class="file-select" method="POST" action="/detect" enctype="multipart/form-data">
+                            <input type="file" name="file" accept=".jpg, .jpeg, .png">
+                            <input type="submit" value="Detect Faces">
+                        </form>
+
+                        <!-- Display uploaded image for face detection -->
+                        {% if detected_image %}
+                        <h3>Uploaded Image for Detection:</h3>
+                        <img src="data:image/jpeg;base64,{{ detected_image }}" alt="Uploaded Image for Detection" width="400">
+                        {% endif %}
+
+                        <!-- Display detected faces coordinates -->
+                        {% if detected_faces %}
+                        <h3>Detected Faces:</h3>
+                        <ul>
+                            {% for (x, y, w, h) in detected_faces %}
+                            <li>Face {{ loop.index }}. Coordinates: ({{ x }}, {{ y }}), Width: {{ w }}, Height: {{ h }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <!-- Form for uploading an image for face recognition -->
+                        <h2>Face Recognition</h2>
+                        <form  class="file-select" method="POST" action="/recognize" enctype="multipart/form-data">
+                            <input type="file" name="file" accept=".jpg, .jpeg, .png">
+                            <input type="submit" value="Recognize Faces">
+                        </form>
+
+                        <!-- Display uploaded image for face recognition -->
+                        {% if recognized_image %}
+                        <h3>Uploaded Image for Recognition:</h3>
+                        <img src="data:image/jpeg;base64,{{ recognized_image }}" alt="Uploaded Image for Recognition" width="400">
+                        {% endif %}
+
+                        <!-- Display recognized results -->
+                        {% if recognized_results %}
+                        <h3>Recognized Results:</h3>
+                        <ul>
+                            {% for result in recognized_results %}
+                            <li>{{ result }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <section class="about-content" id="about">
+                <article class="about">
+                    <div class="about-me">
+                        <h3 class="main-title">About Face-X</h3>
+                        <p class="support-text">
+                            Hello, we are still working on the aesthetics and functionality. You'll have a flawless experience soon.
+                        </p>
+                    </div>
+                </article>
+                <hr class="about-hr">              
+            </section>
+            <section class="feedback" id="feedback">
+                <span class="feedback-text">
+                    Feel free to reach out via email below.
+                </span>                    
+                <form class="feedback-form" id="feedback-form" action="https://formspree.io/f/mgejedvd" method="POST">
+                    <input type="text" id="fullname" name="fullname" placeholder="Full name" maxlength="30" required>
+                    <hr class="divider">
+                    <input type="email" id="email" name="email" placeholder="Email address" required>
+                    <hr class="divider">
+                    <div class="rectangle-border">
+                        <textarea id="message" name="message" rows="5" placeholder="Write me something" maxlength="500" required></textarea>
+                    </div>                        
+                    <button class="c-button" type="submit">Email Us</button>
+                    <div id="error-message"></div>
+                </form>
+            </section>
+        </div>
+        <footer class="contacts">
+            <div>
+                <ul class="contact-links">
+                    <li>
+                        <a href="https://github.com/allenkays"><img  class="profile" src="static/assets/contact_profiles/github.png"/></a>
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/allan-sang/"><img  class="profile" src="static/assets/contact_profiles/linkedin.png"/></a>
+                    </li>
+                    <li>
+                        <a href="https://discord.com/allenkays"><img  class="profile" src="static/assets/contact_profiles/angelist.png"/></a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/allenkays"><img  class="profile" src="static/assets/contact_profiles/twitter.png"/></a>
+                    </li>
+                    <li>
+                        <a href="https://medium.com/@allainkibet"><img  class="profile" src="static/assets/contact_profiles/medium.png"/></a>
+                    </li>
+                </ul>
+            </div>
+        </footer>
+    </body>
+</html>

@@ -2,9 +2,6 @@ dlib
 face-recognition
 matplotlib
 numpy
-Pillow
 Flask
 opencv-python
-cryptography
-pymysql
-sqlalchemy
+
